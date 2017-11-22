@@ -53,7 +53,7 @@ var documenterSearchIndex = {"docs": [
     "page": "The TimeArray time series type",
     "title": "The TimeArray time series type",
     "category": "section",
-    "text": "The TimeArray time series type is defined here (with inner constructor code removed for readability):struct TimeArray{T,N,D<:TimeType,A<:AbstractArray} <: AbstractTimeSeries\n    timestamp::Vector{D}\n    values::A # some kind of AbstractArray{T,N}\n    colnames::Vector{tring}\n    meta::Any\n\n    # inner constructor code enforcing invariants\nendThere are four fields for the type."
+    "text": "The TimeArray time series type is defined here (with inner constructor code removed for readability):struct TimeArray{T,N,D<:TimeType,A<:AbstractArray} <: AbstractTimeSeries\n    timestamp::Vector{D}\n    values::A # some kind of AbstractArray{T,N}\n    colnames::Vector{String}\n    meta::Any\n\n    # inner constructor code enforcing invariants\nendThere are four fields for the type."
 },
 
 {
