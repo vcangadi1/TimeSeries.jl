@@ -321,6 +321,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "apply.html#diff-1",
+    "page": "Apply methods",
+    "title": "diff",
+    "category": "section",
+    "text": "Differentiating a time series calculates the finite difference between two consecutive points in the time series. The resulting time series will have less points than the original. Those points are filled with NaN values if padding=true.using TimeSeries\nusing MarketData\ndiff(cl)You can calculate higher order differences by using the keyword parameter differences, accepting a positive integer. The default value is differences=1. For instance, passing differences=2 is equivalent to doing diff(diff(cl))."
+},
+
+{
     "location": "apply.html#percentchange-1",
     "page": "Apply methods",
     "title": "percentchange",
