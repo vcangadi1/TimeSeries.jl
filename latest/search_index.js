@@ -405,7 +405,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Combine methods",
     "title": "map",
     "category": "section",
-    "text": "This function allows complete transformation of the data within the time series, with alteration on both the time stamps and the associated values. It works exactly like Base.map: the first argument is a binary function (the time stamp and the values) that returns two values, respectively the new time stamp and the new vector of values. It does not perform any kind of compression like collapse, but rather transformations.The simplest example is to postpone all time stamps in the given time series, here by one year:using TimeSeries\na = TimeArray([Date(2015, 10, 01), Date(2015, 11, 01)], [15, 16], [\"Number\"])\nmap((timestamp, values) -> (timestamp + Dates.Year(1), values), a)\nend"
+    "text": "This function allows complete transformation of the data within the time series, with alteration on both the time stamps and the associated values. It works exactly like Base.map: the first argument is a binary function (the time stamp and the values) that returns two values, respectively the new time stamp and the new vector of values. It does not perform any kind of compression like collapse, but rather transformations.The simplest example is to postpone all time stamps in the given time series, here by one year:using TimeSeries\na = TimeArray([Date(2015, 10, 01), Date(2015, 11, 01)], [15, 16], [\"Number\"])\nmap((timestamp, values) -> (timestamp + Dates.Year(1), values), a)"
 },
 
 {
