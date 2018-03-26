@@ -37,7 +37,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Getting Started",
     "category": "section",
-    "text": "TimeSeries is a registered package. To add it to your Julia packages, simply do the following in REPL:julia> Pkg.add(\"TimeSeries\")Throughout this tutorial, we'll be using historical financial data sets, which are made available in the MarketData package. MarketData is also registered and can be added:julia> Pkg.add(\"MarketData\")To create dummy data without using the MarketData package, simply use the following code block:using TimeSeriesdates  = collect(Date(1999,1,1):Date(2000,12,31))\nmytime = TimeArray(dates, rand(length(dates)))"
+    "text": "TimeSeries is a registered package. To add it to your Julia packages, simply do the following in REPL:julia> Pkg.add(\"TimeSeries\")Throughout this tutorial, we\'ll be using historical financial data sets, which are made available in the MarketData package. MarketData is also registered and can be added:julia> Pkg.add(\"MarketData\")To create dummy data without using the MarketData package, simply use the following code block:using TimeSeriesdates  = collect(Date(1999,1,1):Date(2000,12,31))\nmytime = TimeArray(dates, rand(length(dates)))"
 },
 
 {
@@ -85,7 +85,7 @@ var documenterSearchIndex = {"docs": [
     "page": "The TimeArray time series type",
     "title": "meta",
     "category": "section",
-    "text": "The meta field defaults to holding nothing, which is represented by type Void. This default is designed to allow programmers to ignore this field. For those who wish to utilize this field, meta can hold common types such as String or more elaborate user-defined types. One might want to assign a name to an object that is immutable versus relying on variable bindings outside of the object's type fields."
+    "text": "The meta field defaults to holding nothing, which is represented by type Void. This default is designed to allow programmers to ignore this field. For those who wish to utilize this field, meta can hold common types such as String or more elaborate user-defined types. One might want to assign a name to an object that is immutable versus relying on variable bindings outside of the object\'s type fields."
 },
 
 {
@@ -309,7 +309,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Apply methods",
     "title": "lag",
     "category": "section",
-    "text": "The lag method simply described is putting yesterday's value in today's timestamp. This is the most common use case, though there are many times the distance between timestamps is not 1 time unit. An arbitrary integer distance for lagging is supported, with the default equal to 1.The value of the cl object on Jan 3, 2000 is 111.94. On Jan 4, 2000 it is 102.50 and on Jan 5, 2000 it's 104.0:using TimeSeries\nusing MarketData\ncl[1:3]The lag method moves values up one day:lag(cl[1:3])You will notice that since there is no known value for lagging the first day, the observation on that timestamp is omitted. This behavior is common in time series. When observations are consumed in a transformation, the artifact dates are not preserved with a missingness value. To pad the returned TimeArray with NaN values instead, you can pass padding=true as a keyword argument:lag(cl[1:3], padding=true)"
+    "text": "The lag method simply described is putting yesterday\'s value in today\'s timestamp. This is the most common use case, though there are many times the distance between timestamps is not 1 time unit. An arbitrary integer distance for lagging is supported, with the default equal to 1.The value of the cl object on Jan 3, 2000 is 111.94. On Jan 4, 2000 it is 102.50 and on Jan 5, 2000 it\'s 104.0:using TimeSeries\nusing MarketData\ncl[1:3]The lag method moves values up one day:lag(cl[1:3])You will notice that since there is no known value for lagging the first day, the observation on that timestamp is omitted. This behavior is common in time series. When observations are consumed in a transformation, the artifact dates are not preserved with a missingness value. To pad the returned TimeArray with NaN values instead, you can pass padding=true as a keyword argument:lag(cl[1:3], padding=true)"
 },
 
 {
@@ -317,7 +317,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Apply methods",
     "title": "lead",
     "category": "section",
-    "text": "Leading values operates similarly to lagging values, but moves things in the other direction. Arbitrary time distances is also supported:using TimeSeries\nusing MarketData\nlead(cl[1:3])Since we are leading an object of length 3, only two values will be transformed because we have lost a day to the transformation.The cl object is 500 rows long so if we lead by 499 days, we should put the last observation in the object (which happens to be on Dec 31,into the first date's value slot:lead(cl, 499)"
+    "text": "Leading values operates similarly to lagging values, but moves things in the other direction. Arbitrary time distances is also supported:using TimeSeries\nusing MarketData\nlead(cl[1:3])Since we are leading an object of length 3, only two values will be transformed because we have lost a day to the transformation.The cl object is 500 rows long so if we lead by 499 days, we should put the last observation in the object (which happens to be on Dec 31,into the first date\'s value slot:lead(cl, 499)"
 },
 
 {
@@ -333,7 +333,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Apply methods",
     "title": "percentchange",
     "category": "section",
-    "text": "Calculating change between timestamps is a very common time series operation. We use the terms percent change, returns and rate of change interchangably. Depending on which domain you're using time series, you may prefer one name over the other.This package names the function that performs this transformation percentchange. You're welcome to change this of course if that represents too many letters for you to type:using TimeSeries\nroc = percentchangeThe percentchange method includes the option to return a simple return or a log return. The default is set to simple:using MarketData\npercentchange(cl)Log returns are popular for downstream calculations since adding returns is simpler than multiplying them. To create log returns, pass the symbol :log to the method:percentchange(cl, :log)"
+    "text": "Calculating change between timestamps is a very common time series operation. We use the terms percent change, returns and rate of change interchangably. Depending on which domain you\'re using time series, you may prefer one name over the other.This package names the function that performs this transformation percentchange. You\'re welcome to change this of course if that represents too many letters for you to type:using TimeSeries\nroc = percentchangeThe percentchange method includes the option to return a simple return or a log return. The default is set to simple:using MarketData\npercentchange(cl)Log returns are popular for downstream calculations since adding returns is simpler than multiplying them. To create log returns, pass the symbol :log to the method:percentchange(cl, :log)"
 },
 
 {
@@ -381,7 +381,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Combine methods",
     "title": "merge",
     "category": "section",
-    "text": "The merge method performs joins between two TimeArrays. The default behaviour is to perform an inner join, such that the resulting TimeArray contains only timestamps that both TimeArrays share, and values that correspond to that timestamp.The AAPL object from MarketData has 8,336 rows of data from Dec 12, 1980 to Dec 31, 2013. If we merge it with the CAT object, which contains 13,090 rows of data from Jan 2, 1962 to Dec 31, 2013 we might expect the resulting TimeArray to have 8,336 rows of data, corresponding to the length of AAPL. This assumes that every day that Apple Computer, Inc. traded, Caterpillar, Inc likewise traded. It turns out that this isn't true. CAT did not trade on Sep 27, 1985 because Hurricane Glorio shut down the New York Stock Exchage. Apple Computer trades on the electronic NASDAQ and its trading was not halted on that day. The result of the merge should then be 8,335 rows:using TimeSeries\nusing MarketData\nAppleCat = merge(AAPL,CAT);\nlength(AppleCat)Left, right, and outer joins can also be performed by passing the corresponding symbol. These joins introduce NaN values when data for a particular timestamp only exists in one of the series to be merged. For example:merge(op[1:3], cl[2:4], :left)\nmerge(op[1:3], cl[2:4], :right)\nmerge(op[1:3], cl[2:4], :outer)The merge method allows users to specify the value for the meta field of the merged object. When that value is not explicitly provided, merge will concatenate the meta field values, assuming these values to be strings. This covers the vast majority of use cases. In edge cases when users do not provide a meta value and both field values are not strings, the merged object will take on Void as its meta field value:AppleCat.meta\nCatApple = merge(CAT, AAPL, meta=47);\nCatApple.meta\nmerge(AppleCat, CatApple).meta"
+    "text": "The merge method performs joins between two TimeArrays. The default behaviour is to perform an inner join, such that the resulting TimeArray contains only timestamps that both TimeArrays share, and values that correspond to that timestamp.The AAPL object from MarketData has 8,336 rows of data from Dec 12, 1980 to Dec 31, 2013. If we merge it with the CAT object, which contains 13,090 rows of data from Jan 2, 1962 to Dec 31, 2013 we might expect the resulting TimeArray to have 8,336 rows of data, corresponding to the length of AAPL. This assumes that every day that Apple Computer, Inc. traded, Caterpillar, Inc likewise traded. It turns out that this isn\'t true. CAT did not trade on Sep 27, 1985 because Hurricane Glorio shut down the New York Stock Exchage. Apple Computer trades on the electronic NASDAQ and its trading was not halted on that day. The result of the merge should then be 8,335 rows:using TimeSeries\nusing MarketData\nAppleCat = merge(AAPL,CAT);\nlength(AppleCat)Left, right, and outer joins can also be performed by passing the corresponding symbol. These joins introduce NaN values when data for a particular timestamp only exists in one of the series to be merged. For example:merge(op[1:3], cl[2:4], :left)\nmerge(op[1:3], cl[2:4], :right)\nmerge(op[1:3], cl[2:4], :outer)The merge method allows users to specify the value for the meta field of the merged object. When that value is not explicitly provided, merge will concatenate the meta field values, assuming these values to be strings. This covers the vast majority of use cases. In edge cases when users do not provide a meta value and both field values are not strings, the merged object will take on Void as its meta field value:AppleCat.meta\nCatApple = merge(CAT, AAPL, meta=47);\nCatApple.meta\nmerge(AppleCat, CatApple).meta"
 },
 
 {
@@ -429,7 +429,7 @@ var documenterSearchIndex = {"docs": [
     "page": "I/O",
     "title": "readtimearray",
     "category": "section",
-    "text": "The readtimearray method is a wrapper for the Base.readcsv method that returns a TimeArray.readtimearray(fname; delim=',', meta=nothing, format=\"\")The fname argument is a string that represents the location and name of the csv file that you wish to parse into a TimeArray object. Optionally, you can add a value to the meta field.More generally, this function accepts arbitrary delimiters with delim, just like Base.readcsv.For DateTime data that has odd formatting, a format argument is provided where users can pass the format of their data.For example:ta = readtimearray(\"close.csv\", format=\"dd/mm/yyyy HH:MM\", delim=';')A more robust regex parsing engine is planned so users will not need to pass a time format for anything but the most edge cases."
+    "text": "The readtimearray method is a wrapper for the Base.readcsv method that returns a TimeArray.readtimearray(fname; delim=\',\', meta=nothing, format=\"\")The fname argument is a string that represents the location and name of the csv file that you wish to parse into a TimeArray object. Optionally, you can add a value to the meta field.More generally, this function accepts arbitrary delimiters with delim, just like Base.readcsv.For DateTime data that has odd formatting, a format argument is provided where users can pass the format of their data.For example:ta = readtimearray(\"close.csv\", format=\"dd/mm/yyyy HH:MM\", delim=\';\')A more robust regex parsing engine is planned so users will not need to pass a time format for anything but the most edge cases."
 },
 
 {
@@ -453,7 +453,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Customize TimeArray printting",
     "title": "Customize TimeArray printting",
     "category": "section",
-    "text": "A dot file named .timeseriesrc sets three variables that control how TimeArrays are displayed. This doesn't change the underlying TimeArray and only controls how values are printed to REPL.Here is an handy way to edit it:julia> edit(Pkg.dir(\"TimeSeries\", \"src\", \".timeseriesrc.jl\"))"
+    "text": "A dot file named .timeseriesrc sets three variables that control how TimeArrays are displayed. This doesn\'t change the underlying TimeArray and only controls how values are printed to REPL.Here is an handy way to edit it:julia> edit(Pkg.dir(\"TimeSeries\", \"src\", \".timeseriesrc.jl\"))"
 },
 
 {
