@@ -132,21 +132,31 @@ julia&gt; ohlc[red]
 julia&gt; using MarketData
 
 julia&gt; head(cl)
-1x1 TimeSeries.TimeArray{Float64,2,Date,Array{Float64,2}} 2000-01-03 to 2000-01-03
+6x1 TimeSeries.TimeArray{Float64,1,Date,Array{Float64,1}} 2000-01-03 to 2000-01-10
 │            │ Close  │
 ├────────────┼────────┤
-│ 2000-01-03 │ 111.94 │</code></pre><h3><a class="nav-anchor" id="tail-1" href="#tail-1"><code>tail</code></a></h3><p>The <code>tail</code> method defaults to returning only the last value in a <code>TimeArray</code>. By selecting the second positional argument to a different value, the user can modify how many from the bottom are selected:</p><pre><code class="language-julia-repl">julia&gt; using TimeSeries
+│ 2000-01-03 │ 111.94 │
+│ 2000-01-04 │ 102.5  │
+│ 2000-01-05 │ 104.0  │
+│ 2000-01-06 │ 95.0   │
+│ 2000-01-07 │ 99.5   │
+│ 2000-01-10 │ 97.75  │</code></pre><h3><a class="nav-anchor" id="tail-1" href="#tail-1"><code>tail</code></a></h3><p>The <code>tail</code> method defaults to returning only the last value in a <code>TimeArray</code>. By selecting the second positional argument to a different value, the user can modify how many from the bottom are selected:</p><pre><code class="language-julia-repl">julia&gt; using TimeSeries
 
 julia&gt; using MarketData
 
 julia&gt; tail(cl)
-1x1 TimeSeries.TimeArray{Float64,2,Date,Array{Float64,2}} 2001-12-31 to 2001-12-31
+6x1 TimeSeries.TimeArray{Float64,1,Date,Array{Float64,1}} 2001-12-21 to 2001-12-31
 │            │ Close │
 ├────────────┼───────┤
+│ 2001-12-21 │ 21.0  │
+│ 2001-12-24 │ 21.36 │
+│ 2001-12-26 │ 21.49 │
+│ 2001-12-27 │ 22.07 │
+│ 2001-12-28 │ 22.43 │
 │ 2001-12-31 │ 21.9  │
 
 julia&gt; tail(cl, 3)
-3x1 TimeSeries.TimeArray{Float64,2,Date,Array{Float64,2}} 2001-12-27 to 2001-12-31
+3x1 TimeSeries.TimeArray{Float64,1,Date,Array{Float64,1}} 2001-12-27 to 2001-12-31
 │            │ Close │
 ├────────────┼───────┤
 │ 2001-12-27 │ 22.07 │
