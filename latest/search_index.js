@@ -37,7 +37,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting Started",
     "title": "Getting Started",
     "category": "section",
-    "text": "TimeSeries is a registered package. To add it to your Julia packages, simply do the following in REPL:julia> Pkg.add(\"TimeSeries\")Throughout this tutorial, we\'ll be using historical financial data sets, which are made available in the MarketData package. MarketData is also registered and can be added:julia> Pkg.add(\"MarketData\")To create dummy data without using the MarketData package, simply use the following code block:using TimeSeriesdates  = collect(Date(1999,1,1):Date(2000,12,31))\nmytime = TimeArray(dates, rand(length(dates)))"
+    "text": "TimeSeries is a registered package. To add it to your Julia packages, simply do the following in REPL:julia> Pkg.add(\"TimeSeries\")Throughout this tutorial, we\'ll be using historical financial data sets, which are made available in the MarketData package. MarketData is also registered and can be added:julia> Pkg.add(\"MarketData\")To create dummy data without using the MarketData package, simply use the following code block:using TimeSeriesusing Dates\ndates = Date(2018, 1, 1):Day(1):Date(2018, 12, 31)\nta = TimeArray(dates, rand(length(dates)))"
 },
 
 {
@@ -53,7 +53,7 @@ var documenterSearchIndex = {"docs": [
     "page": "The TimeArray time series type",
     "title": "The TimeArray time series type",
     "category": "section",
-    "text": "The TimeArray time series type is defined here (with inner constructor code removed for readability):struct TimeArray{T,N,D<:TimeType,A<:AbstractArray} <: AbstractTimeSeries\n    timestamp::Vector{D}\n    values::A # some kind of AbstractArray{T,N}\n    colnames::Vector{String}\n    meta::Any\n\n    # inner constructor code enforcing invariants\nendThere are four fields for the type."
+    "text": "The TimeArray time series type is defined here (with inner constructor code removed for readability):struct TimeArray{T,N,D<:TimeType,A<:AbstractArray{T,N}} <: AbstractTimeSeries{T,N,D}\n    timestamp::Vector{D}\n    values::A # some kind of AbstractArray{T,N}\n    colnames::Vector{Symbol}\n    meta::Any\n\n    # inner constructor code enforcing invariants\nendThere are four fields for the type."
 },
 
 {
@@ -77,7 +77,7 @@ var documenterSearchIndex = {"docs": [
     "page": "The TimeArray time series type",
     "title": "colnames",
     "category": "section",
-    "text": "The colnames field is a vector of type String and contains the names of the columns for each column in the values field. The length of this vector must match the column count of the values array, or the constructor will fail. Since TimeArrays are indexable on column names, duplicate names in the colnames vector will be modified by the inner constructor. Each subsequent duplicate name will be appended by _n where n enumerates from 1."
+    "text": "The colnames field is a vector of Symbol and contains the names of the columns for each column in the values field. The length of this vector must match the column count of the values array, or the constructor will fail. Since TimeArrays are indexable on column names, duplicate names in the colnames vector will be modified by the inner constructor. Each subsequent duplicate name will be appended by _n where n enumerates from 1."
 },
 
 {
@@ -85,7 +85,15 @@ var documenterSearchIndex = {"docs": [
     "page": "The TimeArray time series type",
     "title": "meta",
     "category": "section",
-    "text": "The meta field defaults to holding nothing, which is represented by type Void. This default is designed to allow programmers to ignore this field. For those who wish to utilize this field, meta can hold common types such as String or more elaborate user-defined types. One might want to assign a name to an object that is immutable versus relying on variable bindings outside of the object\'s type fields."
+    "text": "The meta field defaults to holding nothing, which is represented by type Nothing. This default is designed to allow programmers to ignore this field. For those who wish to utilize this field, meta can hold common types such as String or more elaborate user-defined types. One might want to assign a name to an object that is immutable versus relying on variable bindings outside of the object\'s type fields."
+},
+
+{
+    "location": "timearray.html#Fields-getter-functions-1",
+    "page": "The TimeArray time series type",
+    "title": "Fields getter functions",
+    "category": "section",
+    "text": "There are four field getter functions exported. They are named as same as the field names.timestamp(ta::TimeArray)\nvalues(ta::TimeArray)\ncolnames(ta::TimeArray)\nmeta(ta::TimeArray)"
 },
 
 {
@@ -105,19 +113,19 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "indexing.html#Integers-1",
+    "location": "indexing.html#Row-indexing-1",
     "page": "Array indexing",
-    "title": "Integers",
+    "title": "Row indexing",
     "category": "section",
-    "text": "Example Description Indexing value\n[1] First row of data only single integer\n[1:3] First through third row only integer range\n[1:2:10] Odd row between first to tenth row integer range with step\n[[1:3; 8]] First through third row and eight row integer range & single integerExamples in REPL:using MarketData\nohlc[1]\nohlc[1:3]\nohlc[1:2:10]\nohlc[[1:3;8]]"
+    "text": ""
 },
 
 {
-    "location": "indexing.html#Strings-1",
+    "location": "indexing.html#Integer-1",
     "page": "Array indexing",
-    "title": "Strings",
+    "title": "Integer",
     "category": "section",
-    "text": "Example Description Indexing value\n[\"Open\"] The column named \"Open\" single string\n[\"Open\", \"Close\"] The columns named \"Open\" and \"Close\" multiple stringsExamples in REPL:using MarketData\nohlc[\"Open\"]\nohlc[\"Open\", \"Close\"]"
+    "text": "Example Description Indexing value\n[1] First row of data only single integer\n[1:3] First through third row only integer range\n[1:2:10] Odd row between first to tenth row integer range with step\n[[1:3; 8]] First through third row and eight row integer range & single integer\n[end] Last row Examples in REPL:using MarketDataohlc[1]\nohlc[1:3]\nohlc[1:2:10]\nohlc[[1:3;8]]\nohlc[end]"
 },
 
 {
@@ -125,7 +133,23 @@ var documenterSearchIndex = {"docs": [
     "page": "Array indexing",
     "title": "Date and DateTime",
     "category": "section",
-    "text": "Example Description Indexing value\n[Date(2000, 1, 3)] The row containing Jan 3, 2000 timestamp single Date\n[[Date(2000, 1, 3), Date(2000, 2, 4)]] The rows containing Jan 3 & Jan 4, 2000 multiple Dates\n[Date(2000, 1, 3):Date(2000, 2, 4)] The rows between Jan 1, 2000 & Feb 1, 2000 range of DateExamples in REPL:using MarketData\nohlc[Date(2000, 1, 3)]\nohlc[Date(2000, 1, 3):Date(2000, 2, 4)]"
+    "text": "Example Description Indexing value\n[Date(2000, 1, 3)] The row containing Jan 3, 2000 timestamp single Date\n[[Date(2000, 1, 3), Date(2000, 2, 4)]] The rows containing Jan 3 & Jan 4, 2000 multiple Dates\n[Date(2000, 1, 3):Day(1):Date(2000, 2, 4)] The rows between Jan 1, 2000 & Feb 1, 2000 range of DateExamples in REPL:using MarketData\nusing Datesohlc[Date(2000, 1, 3)]\nohlc[Date(2000, 1, 3):Day(1):Date(2000, 2, 4)]"
+},
+
+{
+    "location": "indexing.html#Column-indexing-1",
+    "page": "Array indexing",
+    "title": "Column indexing",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "indexing.html#Symbol-1",
+    "page": "Array indexing",
+    "title": "Symbol",
+    "category": "section",
+    "text": "Example Description Indexing value\n[:Open] The column named :Open single symbol\n[:Open, :Close] The columns named :Open and :Close multiple symbolsExamples in REPL:using MarketData\nusing Datesohlc[:Open]\nohlc[:Open, :Close]"
 },
 
 {
@@ -133,28 +157,28 @@ var documenterSearchIndex = {"docs": [
     "page": "Array indexing",
     "title": "Mixed approach",
     "category": "section",
-    "text": "Example Description Indexing value\n[\"Open\"][1:3] \"Open\" column & first 3 rows single string & integer range\n[\"Open\"][Date(2000, 1, 3)] \"Open\" column and Jan 3, 2000 single string & DateExamples in REPL:using MarketData\nohlc[\"Open\"][1:3]\nohlc[\"Open\"][Date(2000, 1, 3)]"
+    "text": "Example Description Indexing value\n[:Open][1:3] :Open column & first 3 rows single symbol & integer range\n[:Open][Date(2000, 1, 3)] :Open column and Jan 3, 2000 single symbol & DateExamples in REPL:using MarketData\nusing Datesohlc[:Open][1:3]\nohlc[:Open][Date(2000, 1, 3)]"
 },
 
 {
     "location": "split.html#",
-    "page": "Splitting by time constraint or when condition is true",
-    "title": "Splitting by time constraint or when condition is true",
+    "page": "Splitting by conditions",
+    "title": "Splitting by conditions",
     "category": "page",
     "text": ""
 },
 
 {
-    "location": "split.html#Splitting-by-time-constraint-or-when-condition-is-true-1",
-    "page": "Splitting by time constraint or when condition is true",
-    "title": "Splitting by time constraint or when condition is true",
+    "location": "split.html#Splitting-by-conditions-1",
+    "page": "Splitting by conditions",
+    "title": "Splitting by conditions",
     "category": "section",
     "text": "Specific methods for segmenting on time ranges or if condition is met is supported with the following methods."
 },
 
 {
     "location": "split.html#when-1",
-    "page": "Splitting by time constraint or when condition is true",
+    "page": "Splitting by conditions",
     "title": "when",
     "category": "section",
     "text": "The when methods allows aggregating elements from a TimeArray into specific time periods, such as Mondays or the month of October:using TimeSeries\nusing MarketData\nwhen(cl, dayofweek, 1)\nwhen(cl, dayname, \"Monday\")The period argument holds a valid Date method. Below are currently available alternatives.Dates method Example\nday Jan 3, 2000 = 3\ndayname Jan 3, 2000 = \"Monday\"\nweek Jan 3, 2000 = 1\nmonth Jan 3, 2000 = 1\nmonthname Jan 3, 2000 = \"January\"\nyear Jan 3, 2000 = 2000\ndayofweek Monday = 1\ndayofweekofmonth Fourth Monday in Jan = 4\ndayofyear Dec 31, 2000 = 366\nquarterofyear Dec 31, 2000 = 4\ndayofquarter Dec 31, 2000 = 93"
@@ -162,7 +186,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "split.html#from-1",
-    "page": "Splitting by time constraint or when condition is true",
+    "page": "Splitting by conditions",
     "title": "from",
     "category": "section",
     "text": "The from method truncates a TimeArray starting with the date passed to the method:using TimeSeries\nusing MarketData\n\nfrom(cl, Date(2001, 12, 27))"
@@ -170,7 +194,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "split.html#to-1",
-    "page": "Splitting by time constraint or when condition is true",
+    "page": "Splitting by conditions",
     "title": "to",
     "category": "section",
     "text": "The to method truncates a TimeArray after the date passed to the method:using TimeSeries\nusing MarketData\n\nto(cl, Date(2000, 1, 5))"
@@ -178,23 +202,23 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "split.html#findwhen-1",
-    "page": "Splitting by time constraint or when condition is true",
+    "page": "Splitting by conditions",
     "title": "findwhen",
     "category": "section",
-    "text": "The findwhen method test a condition and returns a vector of Date or DateTime where the condition is true:using TimeSeries\nusing MarketData\n\ngreen = findwhen(ohlc[\"Close\"] .> ohlc[\"Open\"]);\ntypeof(green)\nohlc[green]"
+    "text": "The findwhen method test a condition and returns a vector of Date or DateTime where the condition is true:using TimeSeries\nusing MarketData\n\ngreen = findwhen(ohlc[:Close] .> ohlc[:Open]);\ntypeof(green)\nohlc[green]"
 },
 
 {
-    "location": "split.html#find-1",
-    "page": "Splitting by time constraint or when condition is true",
-    "title": "find",
+    "location": "split.html#findall-1",
+    "page": "Splitting by conditions",
+    "title": "findall",
     "category": "section",
-    "text": "The find method tests a condition and returns a vector of Int representing the row in the array where the condition is true:using TimeSeries\nusing MarketData\n\nred = find(ohlc[\"Close\"] .< ohlc[\"Open\"]);\ntypeof(red)\nohlc[red]"
+    "text": "The findall method tests a condition and returns a vector of Int representing the row in the array where the condition is true:using TimeSeries\nusing MarketData\n\nred = findall(ohlc[:Close] .< ohlc[:Open]);\ntypeof(red)\nohlc[red]"
 },
 
 {
     "location": "split.html#Splitting-by-head-and-tail-1",
-    "page": "Splitting by time constraint or when condition is true",
+    "page": "Splitting by conditions",
     "title": "Splitting by head and tail",
     "category": "section",
     "text": ""
@@ -202,7 +226,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "split.html#head-1",
-    "page": "Splitting by time constraint or when condition is true",
+    "page": "Splitting by conditions",
     "title": "head",
     "category": "section",
     "text": "The head method defaults to returning only the first value in a TimeArray. By selecting the second positional argument to a different value, the user can modify how many from the top are selected:using TimeSeries\nusing MarketData\n\nhead(cl)"
@@ -210,7 +234,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "split.html#tail-1",
-    "page": "Splitting by time constraint or when condition is true",
+    "page": "Splitting by conditions",
     "title": "tail",
     "category": "section",
     "text": "The tail method defaults to returning only the last value in a TimeArray. By selecting the second positional argument to a different value, the user can modify how many from the bottom are selected:using TimeSeries\nusing MarketData\n\ntail(cl)\ntail(cl, 3)"
@@ -237,7 +261,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Modify existing TimeArrays",
     "title": "update",
     "category": "section",
-    "text": "The update method supports adding new observations only. Older and in-between dates are not supported:using TimeSeries\nusing MarketData\nupdate(cl, Date(2002,1,1), 111.11)\nupdate(cl, Date(2002,1,1), [111.11])\nupdate(ohlc, Date(2002,1,1), [111.11, 222.22, 333.33, 444.44])"
+    "text": "The update method supports adding new observations only. Older and in-between dates are not supported:using TimeSeries\nusing MarketData\nupdate(cl, Date(2002,1,1), 111.11)\nupdate(cl, Date(2002,1,1), [111.11])\nupdate(ohlc, Date(2002,1,1), [111.11 222.22 333.33 444.44])"
 },
 
 {
@@ -245,7 +269,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Modify existing TimeArrays",
     "title": "rename",
     "category": "section",
-    "text": "The rename method allows the column name(s) to be changed:using TimeSeries\nusing MarketData\nrename(cl, \"New Close\")\nrename(cl, [\"New Close\"])\nrename(ohlc, [\"New Open\", \"New High\", \"New Low\", \"New Close\"])"
+    "text": "The rename method allows the column name(s) to be changed:using TimeSeries\nusing MarketData\nrename(cl, :Close′)\nrename(cl, [:Close′])\nrename(ohlc, [:Open′, :High′, :Low′, :Close′])"
 },
 
 {
@@ -341,7 +365,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Apply methods",
     "title": "moving",
     "category": "section",
-    "text": "Function signature:moving(f, ta::TimeArray, window; padding=false)\nmoving(ta, window; padding=false) do x\n  ...\nendOften when working with time series, you want to take a sliding window view of the data and perform a calculation on it. The simplest example of this is the moving average. For a 10-period moving average, you take the first ten values, sum then and divide by 10 to get their average. Then you slide the window down one and to the same thing. This operation involves two important arguments: the function that you want to use on your window and the size of the window you want to apply that function over.In our moving average example, we would pass arguments this way:using TimeSeries\nusing MarketData\nmoving(mean, cl, 10)As mentioned previously, we lose the first nine observations to the consuming nature of this operation. They are not missing per se, they simply do not exist."
+    "text": "Function signature:moving(f, ta::TimeArray, window; padding=false)\nmoving(ta, window; padding=false) do x\n  ...\nendOften when working with time series, you want to take a sliding window view of the data and perform a calculation on it. The simplest example of this is the moving average. For a 10-period moving average, you take the first ten values, sum then and divide by 10 to get their average. Then you slide the window down one and to the same thing. This operation involves two important arguments: the function that you want to use on your window and the size of the window you want to apply that function over.In our moving average example, we would pass arguments this way:using TimeSeries\nusing MarketData\nusing Statistics\nmoving(mean, cl, 10)As mentioned previously, we lose the first nine observations to the consuming nature of this operation. They are not missing per se, they simply do not exist."
 },
 
 {
@@ -389,7 +413,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Combine methods",
     "title": "collapse",
     "category": "section",
-    "text": "The collapse method allows for compressing data into a larger time frame. For example, converting daily data into monthly data. When compressing dates, something rational has to be done with the values that lived in the more granular time frame. To define what happens, a function call is made. In our example, we want to compress the daily cl closing prices from daily to monthly. It makes sense for us to take the last value known and have that represented with the corresponding timestamp. A non-exhaustive list of valid time methods is presented below.Dates method Time length\nday daily\nweek weekly\nmonth monthly\nyear yearlyShowing this code in REPL:using TimeSeries\nusing MarketData\ncollapse(cl,month,last)We can also supply the function that chooses the timestamp and the function that determines the corresponding value independently:collapse(cl, month, last, mean)"
+    "text": "The collapse method allows for compressing data into a larger time frame. For example, converting daily data into monthly data. When compressing dates, something rational has to be done with the values that lived in the more granular time frame. To define what happens, a function call is made. In our example, we want to compress the daily cl closing prices from daily to monthly. It makes sense for us to take the last value known and have that represented with the corresponding timestamp. A non-exhaustive list of valid time methods is presented below.Dates method Time length\nday daily\nweek weekly\nmonth monthly\nyear yearlyShowing this code in REPL:using TimeSeries\nusing MarketData\ncollapse(cl,month,last)We can also supply the function that chooses the timestamp and the function that determines the corresponding value independently:using Statistics\ncollapse(cl, month, last, mean)"
 },
 
 {
@@ -397,7 +421,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Combine methods",
     "title": "vcat",
     "category": "section",
-    "text": "The vcat method is used to concatenate time series: if you have two time series with the same columns, but two distinct periods of time, this function can merge them into a single object. Notably, it can be used to merge data that is split into multiple files. Its behaviour is quite different from merge, which does not consider that its arguments are actually the same time series.This concatenation is vertical (vcat) because it does not create columns, it extends existing ones (which are represented vertically).For example:using TimeSeries\na = TimeArray([Date(2015, 10, 01), Date(2015, 11, 01)], [15, 16], [\"Number\"])\nb = TimeArray([Date(2015, 12, 01)], [17], [\"Number\"])\n[a; b]"
+    "text": "The vcat method is used to concatenate time series: if you have two time series with the same columns, but two distinct periods of time, this function can merge them into a single object. Notably, it can be used to merge data that is split into multiple files. Its behaviour is quite different from merge, which does not consider that its arguments are actually the same time series.This concatenation is vertical (vcat) because it does not create columns, it extends existing ones (which are represented vertically).For example:using TimeSeries\na = TimeArray([Date(2015, 10, 01), Date(2015, 11, 01)], [15, 16])\nb = TimeArray([Date(2015, 12, 01)], [17])\n[a; b]"
 },
 
 {
@@ -405,7 +429,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Combine methods",
     "title": "map",
     "category": "section",
-    "text": "This function allows complete transformation of the data within the time series, with alteration on both the time stamps and the associated values. It works exactly like Base.map: the first argument is a binary function (the time stamp and the values) that returns two values, respectively the new time stamp and the new vector of values. It does not perform any kind of compression like collapse, but rather transformations.The simplest example is to postpone all time stamps in the given time series, here by one year:using TimeSeries\na = TimeArray([Date(2015, 10, 01), Date(2015, 11, 01)], [15, 16], [\"Number\"])\nmap((timestamp, values) -> (timestamp + Dates.Year(1), values), a)"
+    "text": "This function allows complete transformation of the data within the time series, with alteration on both the time stamps and the associated values. It works exactly like Base.map: the first argument is a binary function (the time stamp and the values) that returns two values, respectively the new time stamp and the new vector of values. It does not perform any kind of compression like collapse, but rather transformations.The simplest example is to postpone all time stamps in the given time series, here by one year:using TimeSeries\nusing Dates\nta = TimeArray([Date(2015, 10, 01), Date(2015, 11, 01)], [15, 16])\nmap((timestamp, values) -> (timestamp + Year(1), values), ta)"
 },
 
 {
@@ -429,7 +453,7 @@ var documenterSearchIndex = {"docs": [
     "page": "I/O",
     "title": "readtimearray",
     "category": "section",
-    "text": "The readtimearray method is a wrapper for the Base.readcsv method that returns a TimeArray.readtimearray(fname; delim=\',\', meta=nothing, format=\"\")The fname argument is a string that represents the location and name of the csv file that you wish to parse into a TimeArray object. Optionally, you can add a value to the meta field.More generally, this function accepts arbitrary delimiters with delim, just like Base.readcsv.For DateTime data that has odd formatting, a format argument is provided where users can pass the format of their data.For example:ta = readtimearray(\"close.csv\", format=\"dd/mm/yyyy HH:MM\", delim=\';\')A more robust regex parsing engine is planned so users will not need to pass a time format for anything but the most edge cases."
+    "text": "The readtimearray method is a wrapper for the DelimitedFiles.readdlm method that returns a TimeArray.readtimearray(fname; delim=\',\', meta=nothing, format=\"\")The fname argument is a string that represents the location and name of the csv file that you wish to parse into a TimeArray object. Optionally, you can add a value to the meta field.More generally, this function accepts arbitrary delimiters with delim, just like DelimitedFiles.readdlm.For DateTime data that has odd formatting, a format argument is provided where users can pass the format of their data.For example:ta = readtimearray(\"close.csv\", format=\"dd/mm/yyyy HH:MM\", delim=\';\')A more robust regex parsing engine is planned so users will not need to pass a time format for anything but the most edge cases."
 },
 
 {
@@ -453,7 +477,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Customize TimeArray printting",
     "title": "Customize TimeArray printting",
     "category": "section",
-    "text": "A dot file named .timeseriesrc sets three variables that control how TimeArrays are displayed. This doesn\'t change the underlying TimeArray and only controls how values are printed to REPL.Here is an handy way to edit it:julia> edit(Pkg.dir(\"TimeSeries\", \"src\", \".timeseriesrc.jl\"))"
+    "text": "A dot file named .timeseriesrc sets three variables that control how TimeArrays are displayed. This doesn\'t change the underlying TimeArray and only controls how values are printed to REPL.Here is an handy way to edit it:julia> using TimeSeries\n\njulia> edit(joinpath(dirname(pathof(TimeSeries)), \".timeseriesrc.jl\"))"
 },
 
 {
@@ -493,7 +517,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Plotting",
     "title": "plot",
     "category": "section",
-    "text": "The recipe allows TimeArray objects to be passed as input to plot. The recipe will plot each variable as an individual line, aligning all variables to the same y axis (here shown using PyPlot as a plotting backend).using Plots, MarketData, TimeSeries\npyplot()\nplot(MarketData.ohlc)(Image: image)More sophisticated plots can be created by using keyword attributes and subsets:plot(MarketData.ohlc[\"Low\"], seriestype = :scatter, markersize = 3, color = :red, markeralpha = 0.4, grid = true)(Image: image)A complete list of all attributes and plotting possibilities can be found in the Plots documentation.Plotting candlestick:plot(TimeSeries.Candlestick(MarketData.ohlc))(Image: image)"
+    "text": "The recipe allows TimeArray objects to be passed as input to plot. The recipe will plot each variable as an individual line, aligning all variables to the same y axis (here shown using PyPlot as a plotting backend).using Plots, MarketData, TimeSeries\npyplot()\nplot(MarketData.ohlc)(Image: image)More sophisticated plots can be created by using keyword attributes and subsets:plot(MarketData.ohlc[:Low], seriestype = :scatter, markersize = 3, color = :red, markeralpha = 0.4, grid = true)(Image: image)A complete list of all attributes and plotting possibilities can be found in the Plots documentation.Plotting candlestick:plot(TimeSeries.Candlestick(MarketData.ohlc))(Image: image)"
 },
 
 ]}
