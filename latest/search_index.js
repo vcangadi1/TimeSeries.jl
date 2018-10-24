@@ -89,11 +89,43 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "timearray.html#TimeSeries.timestamp",
+    "page": "The TimeArray time series type",
+    "title": "TimeSeries.timestamp",
+    "category": "function",
+    "text": "timestamp(ta::TimeArray)\n\nGet the time index of a TimeArray.\n\n\n\n\n\n"
+},
+
+{
+    "location": "timearray.html#Base.values",
+    "page": "The TimeArray time series type",
+    "title": "Base.values",
+    "category": "function",
+    "text": "values(ta::TimeArray)\n\nGet the underlying value table of a TimeArray.\n\n\n\n\n\n"
+},
+
+{
+    "location": "timearray.html#TimeSeries.colnames",
+    "page": "The TimeArray time series type",
+    "title": "TimeSeries.colnames",
+    "category": "function",
+    "text": "colnames(ta::TimeArray)\n\nGet the column names of a TimeArray.\n\nExamples\n\njulia> colnames(ohlc)\n4-element Array{Symbol,1}:\n :Open\n :High\n :Low\n :Close\n\n\n\n\n\n"
+},
+
+{
+    "location": "timearray.html#TimeSeries.meta",
+    "page": "The TimeArray time series type",
+    "title": "TimeSeries.meta",
+    "category": "function",
+    "text": "meta(ta::TimeArray)\n\nGet the user-defined metadata of a TimeArray.\n\n\n\n\n\n"
+},
+
+{
     "location": "timearray.html#Fields-getter-functions-1",
     "page": "The TimeArray time series type",
     "title": "Fields getter functions",
     "category": "section",
-    "text": "There are four field getter functions exported. They are named as same as the field names.timestamp(ta::TimeArray)\nvalues(ta::TimeArray)\ncolnames(ta::TimeArray)\nmeta(ta::TimeArray)"
+    "text": "There are four field getter functions exported. They are named as same as the field names.timestamp\nvalues\ncolnames\nmetatimestamp\nvalues\ncolnames\nmeta"
 },
 
 {
