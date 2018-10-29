@@ -498,23 +498,23 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "dotfile.html#",
-    "page": "Customize TimeArray printting",
-    "title": "Customize TimeArray printting",
+    "page": "Customize TimeArray printing",
+    "title": "Customize TimeArray printing",
     "category": "page",
     "text": ""
 },
 
 {
-    "location": "dotfile.html#Customize-TimeArray-printting-1",
-    "page": "Customize TimeArray printting",
-    "title": "Customize TimeArray printting",
+    "location": "dotfile.html#Customize-TimeArray-printing-1",
+    "page": "Customize TimeArray printing",
+    "title": "Customize TimeArray printing",
     "category": "section",
     "text": "A dot file named .timeseriesrc sets three variables that control how TimeArrays are displayed. This doesn\'t change the underlying TimeArray and only controls how values are printed to REPL.Here is an handy way to edit it:julia> using TimeSeries\n\njulia> edit(joinpath(dirname(pathof(TimeSeries)), \".timeseriesrc.jl\"))"
 },
 
 {
     "location": "dotfile.html#DECIMALS-1",
-    "page": "Customize TimeArray printting",
+    "page": "Customize TimeArray printing",
     "title": "DECIMALS",
     "category": "section",
     "text": "DECIMALS = 4The default setting is 4. It shows values out to four decimal places:using TimeSeries\nusing MarketData\npercentchange(cl)You can change it to whatever value you prefer. If you change it to 6, the same transformation will display like this:julia> percentchange(cl)\n499x1 TimeSeries.TimeArray{Float64,1,Date,Array{Float64,1}} 2000-01-04 to 2001-12-31\n│            │ Close     │\n├────────────┼───────────┤\n│ 2000-01-04 │ -0.084331 │\n│ 2000-01-05 │ 0.014634  │\n│ 2000-01-06 │ -0.086538 │\n│ 2000-01-07 │ 0.047368  │\n│ 2000-01-10 │ -0.017588 │\n│ 2000-01-11 │ -0.051151 │\n│ 2000-01-12 │ -0.059946 │\n│ 2000-01-13 │ 0.109646  │\n│ 2000-01-14 │ 0.03814   │\n   ⋮\n│ 2001-12-19 │ 0.029034  │\n│ 2001-12-20 │ -0.043941 │\n│ 2001-12-21 │ 0.015965  │\n│ 2001-12-24 │ 0.017143  │\n│ 2001-12-26 │ 0.006086  │\n│ 2001-12-27 │ 0.026989  │\n│ 2001-12-28 │ 0.016312  │\n│ 2001-12-31 │ -0.023629 │"
@@ -522,7 +522,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "dotfile.html#MISSING-1",
-    "page": "Customize TimeArray printting",
+    "page": "Customize TimeArray printing",
     "title": "MISSING",
     "category": "section",
     "text": "This output is controlled with const values to accommodate difficult to remember unicode numbers:const NAN       = \"NaN\"\nconst NA        = \"NA\"\nconst BLACKHOLE = \"\\u2B24\"\nconst DOTCIRCLE = \"\\u25CC\"\nconst QUESTION  = \"\\u003F\"\n\nMISSING = NANThe default setting displays NaN, which represent the actual value when padding=true is selected for certain transformations. You can change it to show differently with the provided const values or roll your own. Dot files are often used to customize your experience, so have at it!Here is an example in REPL with the default:julia> lag(cl, padding=true)\n500x1 TimeSeries.TimeArray{Float64,1,Date,Array{Float64,1}} 2000-01-03 to 2001-12-31\n│            │ Close  │\n├────────────┼────────┤\n│ 2000-01-03 │ NaN    │\n│ 2000-01-04 │ 111.94 │\n│ 2000-01-05 │ 102.5  │\n│ 2000-01-06 │ 104.0  │\n│ 2000-01-07 │ 95.0   │\n│ 2000-01-10 │ 99.5   │\n│ 2000-01-11 │ 97.75  │\n│ 2000-01-12 │ 92.75  │\n│ 2000-01-13 │ 87.19  │\n   ⋮\n│ 2001-12-19 │ 21.01  │\n│ 2001-12-20 │ 21.62  │\n│ 2001-12-21 │ 20.67  │\n│ 2001-12-24 │ 21.0   │\n│ 2001-12-26 │ 21.36  │\n│ 2001-12-27 │ 21.49  │\n│ 2001-12-28 │ 22.07  │\n│ 2001-12-31 │ 22.43  │Here is an example in REPL with NA selected:julia> lag(cl, padding=true)\n500x1 TimeSeries.TimeArray{Float64,1,Date,Array{Float64,1}} 2000-01-03 to 2001-12-31\n│            │ Close  │\n├────────────┼────────┤\n│ 2000-01-03 │ NA     │\n│ 2000-01-04 │ 111.94 │\n│ 2000-01-05 │ 102.5  │\n│ 2000-01-06 │ 104.0  │\n│ 2000-01-07 │ 95.0   │\n│ 2000-01-10 │ 99.5   │\n│ 2000-01-11 │ 97.75  │\n│ 2000-01-12 │ 92.75  │\n│ 2000-01-13 │ 87.19  │\n   ⋮\n│ 2001-12-19 │ 21.01  │\n│ 2001-12-20 │ 21.62  │\n│ 2001-12-21 │ 20.67  │\n│ 2001-12-24 │ 21.0   │\n│ 2001-12-26 │ 21.36  │\n│ 2001-12-27 │ 21.49  │\n│ 2001-12-28 │ 22.07  │\n│ 2001-12-31 │ 22.43  │Here is an example in REPL with BLACKHOLE selected:julia> lag(cl, padding=true)\n500x1 TimeSeries.TimeArray{Float64,1,Date,Array{Float64,1}} 2000-01-03 to 2001-12-31\n│            │ Close  │\n├────────────┼────────┤\n│ 2000-01-03 │ ⬤     │\n│ 2000-01-04 │ 111.94 │\n│ 2000-01-05 │ 102.5  │\n│ 2000-01-06 │ 104.0  │\n│ 2000-01-07 │ 95.0   │\n│ 2000-01-10 │ 99.5   │\n│ 2000-01-11 │ 97.75  │\n│ 2000-01-12 │ 92.75  │\n│ 2000-01-13 │ 87.19  │\n   ⋮\n│ 2001-12-19 │ 21.01  │\n│ 2001-12-20 │ 21.62  │\n│ 2001-12-21 │ 20.67  │\n│ 2001-12-24 │ 21.0   │\n│ 2001-12-26 │ 21.36  │\n│ 2001-12-27 │ 21.49  │\n│ 2001-12-28 │ 22.07  │\n│ 2001-12-31 │ 22.43  │Other const values include DOTCIRCLE and QUESTION. The UNICORN value is a feature request."
