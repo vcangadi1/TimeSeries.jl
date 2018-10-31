@@ -89,6 +89,22 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "timearray/#TimeSeries.TimeArray",
+    "page": "The TimeArray time series type",
+    "title": "TimeSeries.TimeArray",
+    "category": "type",
+    "text": "TimeArray{T,N,D<:TimeType,A<:AbstractArray{T,N}} <: AbstractTimeSeries{T,N,D}\n\nConstructors\n\nTimeArray(timestamp, values[, colnames, meta=nothing])\nTimeArray(ta::TimeArray; timestamp, values, colnames, meta)\n\nThe second constructor will yields a new TimeArray with the new given fields. Note that the unchanged fields will be shared, there aren\'t any copy for the underlying arrays.\n\nArguments\n\ntimestamp::AbstractVector{<:TimeType}: a vector of sorted timestamps, Each element in this vector should be unique.\nvalues::AbstractArray: a data vector or matrix. Its number of rows should match the length of timestamp.\ncolnames::Vector{Symbol}: the column names. Its length should match the column of values.\nmeta::Any: a user-defined metadata.\n\n\n\n\n\n"
+},
+
+{
+    "location": "timearray/#Constructors-1",
+    "page": "The TimeArray time series type",
+    "title": "Constructors",
+    "category": "section",
+    "text": "TimeArray"
+},
+
+{
     "location": "timearray/#TimeSeries.timestamp",
     "page": "The TimeArray time series type",
     "title": "TimeSeries.timestamp",
@@ -437,7 +453,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Combine methods",
     "title": "merge",
     "category": "section",
-    "text": "The merge method performs joins between two TimeArrays. The default behaviour is to perform an inner join, such that the resulting TimeArray contains only timestamps that both TimeArrays share, and values that correspond to that timestamp.The AAPL object from MarketData has 8,336 rows of data from Dec 12, 1980 to Dec 31, 2013. If we merge it with the CAT object, which contains 13,090 rows of data from Jan 2, 1962 to Dec 31, 2013 we might expect the resulting TimeArray to have 8,336 rows of data, corresponding to the length of AAPL. This assumes that every day that Apple Computer, Inc. traded, Caterpillar, Inc likewise traded. It turns out that this isn\'t true. CAT did not trade on Sep 27, 1985 because Hurricane Glorio shut down the New York Stock Exchage. Apple Computer trades on the electronic NASDAQ and its trading was not halted on that day. The result of the merge should then be 8,335 rows:using TimeSeries\nusing MarketData\nAppleCat = merge(AAPL,CAT);\nlength(AppleCat)Left, right, and outer joins can also be performed by passing the corresponding symbol. These joins introduce NaN values when data for a particular timestamp only exists in one of the series to be merged. For example:merge(op[1:3], cl[2:4], :left)\nmerge(op[1:3], cl[2:4], :right)\nmerge(op[1:3], cl[2:4], :outer)The merge method allows users to specify the value for the meta field of the merged object. When that value is not explicitly provided, merge will concatenate the meta field values, assuming these values to be strings. This covers the vast majority of use cases. In edge cases when users do not provide a meta value and both field values are not strings, the merged object will take on Void as its meta field value:AppleCat.meta\nCatApple = merge(CAT, AAPL, meta=47);\nCatApple.meta\nmerge(AppleCat, CatApple).meta"
+    "text": "The merge method performs joins between two TimeArrays. The default behaviour is to perform an inner join, such that the resulting TimeArray contains only timestamps that both TimeArrays share, and values that correspond to that timestamp.The AAPL object from MarketData has 8,336 rows of data from Dec 12, 1980 to Dec 31, 2013. If we merge it with the CAT object, which contains 13,090 rows of data from Jan 2, 1962 to Dec 31, 2013 we might expect the resulting TimeArray to have 8,336 rows of data, corresponding to the length of AAPL. This assumes that every day that Apple Computer, Inc. traded, Caterpillar, Inc likewise traded. It turns out that this isn\'t true. CAT did not trade on Sep 27, 1985 because Hurricane Glorio shut down the New York Stock Exchage. Apple Computer trades on the electronic NASDAQ and its trading was not halted on that day. The result of the merge should then be 8,335 rows:using TimeSeries\nusing MarketData\nAppleCat = merge(AAPL,CAT);\nlength(AppleCat)Left, right, and outer joins can also be performed by passing the corresponding symbol. These joins introduce NaN values when data for a particular timestamp only exists in one of the series to be merged. For example:merge(op[1:3], cl[2:4], :left)\nmerge(op[1:3], cl[2:4], :right)\nmerge(op[1:3], cl[2:4], :outer)The merge method allows users to specify the value for the meta field of the merged object. When that value is not explicitly provided, merge will concatenate the meta field values, assuming these values to be strings. This covers the vast majority of use cases. In edge cases when users do not provide a meta value and both field values are not strings, the merged object will take on Void as its meta field value:meta(AppleCat)\nCatApple = merge(CAT, AAPL, meta=47);\nmeta(CatApple)\nmeta(merge(AppleCat, CatApple))"
 },
 
 {
